@@ -117,13 +117,20 @@
           "name": "raw_delim"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "raw_content"
-          },
-          "named": true,
-          "value": "text"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "raw_lang"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "raw_blob"
         },
         {
           "type": "SYMBOL",
@@ -188,9 +195,14 @@
     },
     {
       "type": "SYMBOL",
-      "name": "raw_content"
+      "name": "raw_blob"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "raw_lang"
     }
   ],
   "inline": [],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }

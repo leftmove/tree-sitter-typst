@@ -5,8 +5,8 @@ hello
 --------------------
 
 (source_file
-  (markup
-    (text)))
+     (markup
+         (text)))
 
 
 ====================
@@ -16,10 +16,10 @@ hello  world
 --------------------
 
 (source_file
-  (markup
-    (text)
-    (space)
-    (text)))
+     (markup
+         (text)
+         (space)
+         (text)))
 
 
 ====================
@@ -29,14 +29,14 @@ hello *world*
 --------------------
 
 (source_file
-  (markup
-    (text)
-    (space)
-    (strong
-      (star)
-      (markup
-        (text))
-      (star))))
+     (markup
+         (text)
+         (space)
+         (strong
+             (star)
+             (markup
+                 (text))
+             (star))))
 
 
 ====================
@@ -46,9 +46,9 @@ hello*world
 --------------------
 
 (source_file
-  (markup
-    (text)
-    (text)))
+     (markup
+         (text)
+         (text)))
 
 
 ====================
@@ -58,9 +58,9 @@ world
 --------------------
 
 (source_file
-  (markup
-    (text)
-    (space)))
+     (markup
+         (text)
+         (space)))
 
 
 ====================
@@ -70,26 +70,26 @@ _*hello* *_world_*_
 --------------------
 
 (source_file
-  (markup
-    (emph
-      (underscore)
-      (markup
-        (strong
-          (star)
-          (markup
-            (text))
-          (star))
-        (space)
-        (strong
-          (star)
-          (markup
-            (emph
-              (underscore)
-              (markup
-                (text))
-              (underscore)))
-          (star)))
-      (underscore))))
+     (markup
+         (emph
+             (underscore)
+             (markup
+                 (strong
+                     (star)
+                     (markup
+                         (text))
+                     (star))
+                 (space)
+                 (strong
+                     (star)
+                     (markup
+                         (emph
+                             (underscore)
+                             (markup
+                                 (text))
+                             (underscore)))
+                     (star)))
+             (underscore))))
 
 
 ====================
@@ -99,9 +99,9 @@ _*hello* *_world_*_
 --------------------
 
 (source_file
-  (markup
-    (hash)
-    (ident)))
+     (markup
+         (hash)
+         (ident)))
 
 
 ====================
@@ -111,12 +111,12 @@ a b#a b
 --------------------
 
 (source_file
-  (markup
-    (text)
-    (hash)
-    (ident)
-    (space)
-    (text)))
+     (markup
+         (text)
+         (hash)
+         (ident)
+         (space)
+         (text)))
 
 
 ====================
@@ -126,9 +126,9 @@ a b#a b
 --------------------
 
 (source_file
-  (markup
-    (hash)
-    (int)))
+     (markup
+         (hash)
+         (int)))
 
 
 ====================
@@ -138,11 +138,11 @@ a b#a b
 --------------------
 
 (source_file
-  (markup
-    (raw
-      (raw_delim)
-      (text)
-      (raw_delim))))
+     (markup
+         (raw
+             (raw_delim)
+             (raw_blob)
+             (raw_delim))))
 
 
 ====================
@@ -152,11 +152,11 @@ a b#a b
 --------------------
 
 (source_file
-  (markup
-    (raw
-      (raw_delim)
-      (text)
-      (raw_delim))))
+     (markup
+         (raw
+             (raw_delim)
+             (raw_blob)
+             (raw_delim))))
 
 
 ====================
@@ -166,20 +166,37 @@ a b#a b
 --------------------
 
 (source_file
-  (markup
-    (raw
-      (raw_delim)
-      (text)
-      (raw_delim))
-    (text)
-    (raw
-      (raw_delim)
-      (text)
-      (raw_delim))))
+     (markup
+         (raw
+             (raw_delim)
+             (raw_blob)
+             (raw_delim))
+         (text)
+         (raw
+             (raw_delim)
+             (raw_blob)
+             (raw_delim))))
 
 
 ====================
 013
+====================
+```
+	hello
+	world
+```
+--------------------
+
+(source_file
+     (markup
+         (raw
+             (raw_delim)
+             (raw_blob)
+             (raw_delim))))
+
+
+====================
+014
 ====================
 ```   
 	hello
@@ -188,10 +205,45 @@ a b#a b
 --------------------
 
 (source_file
-  (markup
-    (raw
-      (raw_delim)
-      (text)
-      (raw_delim))))
+     (markup
+         (raw
+             (raw_delim)
+             (raw_blob)
+             (raw_delim))))
+
+
+====================
+015
+====================
+```typst
+	hello
+	world
+```
+--------------------
+
+(source_file
+     (markup
+         (raw
+             (raw_delim)
+             (raw_lang)
+             (raw_blob)
+             (raw_delim))))
+
+
+====================
+016
+====================
+```  typst
+	hello
+	world
+```
+--------------------
+
+(source_file
+     (markup
+         (raw
+             (raw_delim)
+             (raw_blob)
+             (raw_delim))))
 
 

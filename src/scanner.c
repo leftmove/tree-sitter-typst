@@ -11,7 +11,8 @@ enum TokenType {
   IDENT,
   INT,
   RAW_DELIM,
-  RAW_CONTENT,
+  RAW_BLOB,
+  RAW_LANG,
 };
 
 enum LexMode {
@@ -19,6 +20,7 @@ enum LexMode {
   CODE,
   MATH,
   RAW,
+  RAW_HEAD,
   RAW_TAIL,
 };
 
@@ -79,6 +81,7 @@ void tree_sitter_typst_external_scanner_deserialize(
   }
 }
 
+// Peek next available character
 static int32_t scanner_peek(Scanner *self, TSLexer *lexer) {
   if (lexer->eof(lexer)) {
     return 0;
@@ -86,6 +89,7 @@ static int32_t scanner_peek(Scanner *self, TSLexer *lexer) {
   return lexer->lookahead;
 }
 
+// Gives next available character and advance without marking end
 static int32_t scanner_visit(Scanner *self, TSLexer *lexer) {
   if (lexer->eof(lexer)) {
     return 0;
@@ -96,6 +100,7 @@ static int32_t scanner_visit(Scanner *self, TSLexer *lexer) {
   return symbol;
 }
 
+// Gives next available character and advance marking new end
 static int32_t scanner_advance(Scanner *self, TSLexer *lexer) {
   if (lexer->eof(lexer)) {
     return 0;
@@ -160,6 +165,7 @@ static bool is_space(int32_t character, enum LexMode lex_mode) {
   }
 }
 
+// TODO: don't use breakable reference, use git's permalink instead
 // https://doc.rust-lang.org/src/core/char/methods.rs.html#906
 static bool is_alphanumeric(int32_t character) {
   // TODO: placeholder implementation
@@ -327,10 +333,22 @@ static bool self_raw(Scanner *self, TSLexer *lexer, int32_t c) {
       lexer->mark_end(lexer);
     }
   }
-  lexer->result_symbol = RAW_CONTENT;
+  lexer->result_symbol = RAW_BLOB;
   return true;
 }
 
+static bool self_raw_head(Scanner *self, TSLexer *lexer, int32_t c) {
+  if (is_id_start(c)) {
+    while (is_id_continue(scanner_visit(self, lexer))) {
+      lexer->mark_end(lexer);
+    }
+    lexer->result_symbol = RAW_LANG;
+    return true;
+  }
+  else {
+    return self_raw(self, lexer, c);
+  }
+}
 
 static bool self_raw_tail(Scanner *self, TSLexer *lexer, int32_t c) {
   lexer->mark_end(lexer);
@@ -369,7 +387,10 @@ bool tree_sitter_typst_external_scanner_scan(
     else if (valid_symbols[IDENT]) {
       lex_mode = CODE;
     }
-    else if (valid_symbols[RAW_CONTENT]) {
+    else if (valid_symbols[RAW_LANG]) {
+      lex_mode = RAW_HEAD;
+    }
+    else if (valid_symbols[RAW_BLOB]) {
       lex_mode = RAW;
     }
     else if (valid_symbols[RAW_DELIM]) {
@@ -381,7 +402,7 @@ bool tree_sitter_typst_external_scanner_scan(
     }
     // printf("lex_mode = %d\n", lex_mode);
     
-    if (lex_mode != RAW && lex_mode != RAW_TAIL && is_space(c, lex_mode)) {
+    if (lex_mode != RAW && lex_mode != RAW_HEAD && lex_mode != RAW_TAIL && is_space(c, lex_mode)) {
       lexer->mark_end(lexer);
       return self_whitespace(self, lexer, lex_mode, c);
     }
@@ -390,6 +411,8 @@ bool tree_sitter_typst_external_scanner_scan(
         return self_markup(self, lexer, c, l);
       case CODE:
         return self_code(self, lexer, c);
+      case RAW_HEAD:
+        return self_raw_head(self, lexer, c);
       case RAW:
         return self_raw(self, lexer, c);
       case RAW_TAIL:

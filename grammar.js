@@ -18,7 +18,8 @@ module.exports = grammar({
     $.ident,
     $.int,
     $.raw_delim,
-    $.raw_content,
+    $.raw_blob,
+    $.raw_lang,
   ],
   rules: {
     source_file: $ => $.markup,
@@ -32,7 +33,7 @@ module.exports = grammar({
     ))),
     strong: $ => prec.left(seq($.star, optional($.markup), $.star)),
     emph: $ => prec.left(seq($.underscore, optional($.markup), $.underscore)),
-    raw: $ => seq($.raw_delim, alias($.raw_content, $.text), $.raw_delim),
+    raw: $ => seq($.raw_delim, optional($.raw_lang), $.raw_blob, $.raw_delim),
     _expr: $ => choice($.ident, $.int),
   }
 });

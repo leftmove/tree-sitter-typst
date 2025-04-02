@@ -70,11 +70,15 @@
       "required": true,
       "types": [
         {
+          "type": "raw_blob",
+          "named": true
+        },
+        {
           "type": "raw_delim",
           "named": true
         },
         {
-          "type": "text",
+          "type": "raw_lang",
           "named": true
         }
       ]
@@ -128,7 +132,15 @@
     "named": true
   },
   {
+    "type": "raw_blob",
+    "named": true
+  },
+  {
     "type": "raw_delim",
+    "named": true
+  },
+  {
+    "type": "raw_lang",
     "named": true
   },
   {
