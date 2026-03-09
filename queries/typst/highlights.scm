@@ -51,17 +51,23 @@
 (ident) @variable
 
 ; MARKUP
-(item "-" @markup.list)
-(term ["/" ":"] @markup.list)
-(heading "=" @markup.heading.marker) @markup.heading.1
-(heading "==" @markup.heading.marker) @markup.heading.2
-(heading "===" @markup.heading.marker) @markup.heading.3
-(heading "====" @markup.heading.marker) @markup.heading.4
-(heading "=====" @markup.heading.marker) @markup.heading.5
-(heading "======" @markup.heading.marker) @markup.heading.6
-(url) @tag
-(emph) @markup.italic
-(strong) @markup.bold
+(item "-" @punctuation.list_marker)
+(term ["/" ":"] @punctuation.list_marker)
+(heading "=" @punctuation.special)
+(heading "==" @punctuation.special)
+(heading "===" @punctuation.special)
+(heading "====" @punctuation.special)
+(heading "=====" @punctuation.special)
+(heading "======" @punctuation.special)
+(heading (text) @title)
+(heading (emph) @title)
+(heading (strong) @title)
+(heading (raw_span) @title)
+(heading (escape) @title)
+
+(url) @link_uri
+(emph) @emphasis
+(strong) @emphasis.strong
 (symbol) @constant.character
 (shorthand) @constant.builtin
 (quote) @markup.quote
@@ -70,7 +76,7 @@
 (linebreak) @constant.builtin
 
 (math "$" @operator)
-"#" @operator
+"#" @punctuation.special
 "end" @operator
 
 (escape) @constant.character.escape
